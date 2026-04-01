@@ -1,0 +1,507 @@
+/* style.css */
+/* my stylesheet for tech news pulse */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: whitesmoke;
+    color: black;
+}
+
+body.dark {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* ---- top bar ---- */
+
+#topbar {
+    background-color: steelblue;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.dark #topbar {
+    background-color: navy;
+}
+
+#site-name h1 {
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+
+#site-name p {
+    font-size: 0.9rem;
+    color: lightcyan;
+}
+
+#darkbtn {
+    background-color: white;
+    color: steelblue;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+#darkbtn:hover {
+    background-color: lightgray;
+}
+
+/* ---- filter buttons row ---- */
+
+#filterbtns {
+    background-color: white;
+    padding: 12px 30px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 2px solid lightgray;
+}
+
+body.dark #filterbtns {
+    background-color: #222;
+    border-bottom-color: gray;
+}
+
+.fbtn {
+    padding: 7px 16px;
+    border: 2px solid steelblue;
+    background-color: white;
+    color: steelblue;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+}
+
+.fbtn:hover {
+    background-color: steelblue;
+    color: white;
+}
+
+.fbtn.active {
+    background-color: steelblue;
+    color: white;
+}
+
+body.dark .fbtn {
+    background-color: #222;
+    color: lightblue;
+    border-color: lightblue;
+}
+
+body.dark .fbtn:hover,
+body.dark .fbtn.active {
+    background-color: lightblue;
+    color: black;
+}
+
+/* saved button goes to the right side */
+#savedbtn {
+    margin-left: auto;
+    border-color: orange;
+    color: orange;
+}
+
+#savedbtn:hover {
+    background-color: orange;
+    color: white;
+}
+
+/* ---- wrapper / main ---- */
+
+#wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 18px;
+}
+
+/* ---- search bar ---- */
+
+#searcharea {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#searchbox {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid lightgray;
+    border-radius: 6px;
+    outline: none;
+}
+
+#searchbox:focus {
+    border-color: steelblue;
+}
+
+body.dark #searchbox {
+    background-color: #333;
+    color: white;
+    border-color: gray;
+}
+
+#searcharea button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: steelblue;
+    color: white;
+}
+
+#searcharea button:hover {
+    background-color: navy;
+}
+
+#clearbtn {
+    background-color: gray !important;
+}
+
+#clearbtn:hover {
+    background-color: dimgray !important;
+}
+
+/* ---- api key box ---- */
+
+#apibox {
+    background-color: lightyellow;
+    border: 2px dashed orange;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+}
+
+body.dark #apibox {
+    background-color: #2a2600;
+    border-color: orange;
+    color: lightyellow;
+}
+
+#apibox h3 {
+    color: orangered;
+    margin-bottom: 6px;
+    font-size: 1rem;
+}
+
+#apibox p {
+    font-size: 0.85rem;
+    color: dimgray;
+    margin-bottom: 8px;
+}
+
+body.dark #apibox p {
+    color: lightgray;
+}
+
+#keyinput {
+    padding: 8px 12px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    outline: none;
+}
+
+body.dark #keyinput {
+    background-color: #333;
+    color: white;
+    border-color: gray;
+}
+
+#apibox button {
+    padding: 8px 18px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+#apibox button:hover {
+    background-color: darkgreen;
+}
+
+/* ---- messages like loading, error etc ---- */
+
+#waitMsg, #oopsMsg, #nothingMsg {
+    text-align: center;
+    padding: 35px;
+    font-size: 0.95rem;
+    color: gray;
+}
+
+#oopsMsg {
+    color: red;
+}
+
+/* ---- cards container ---- */
+
+#allcards, #savedcards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* tablet */
+@media (max-width: 850px) {
+    #allcards, #savedcards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* mobile */
+@media (max-width: 550px) {
+    #allcards, #savedcards {
+        grid-template-columns: 1fr;
+    }
+
+    #site-name h1 {
+        font-size: 1.3rem;
+    }
+
+    #topbar {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+}
+
+/* ---- single news card ---- */
+
+.newscard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px lightgray;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.newscard:hover {
+    box-shadow: 0 4px 16px silver;
+}
+
+body.dark .newscard {
+    background-color: #2a2a2a;
+    box-shadow: 0 2px 8px black;
+}
+
+/* card image */
+.cardpic {
+    width: 100%;
+    height: 175px;
+    object-fit: cover;
+}
+
+/* when there is no image */
+.nopic {
+    width: 100%;
+    height: 175px;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    font-size: 0.85rem;
+}
+
+body.dark .nopic {
+    background-color: #3a3a3a;
+    color: dimgray;
+}
+
+/* the text part of the card */
+.cardwords {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
+
+/* source like TechCrunch etc */
+.sourcename {
+    font-size: 0.7rem;
+    color: steelblue;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+body.dark .sourcename {
+    color: lightblue;
+}
+
+/* headline of the article */
+.newstitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: black;
+}
+
+body.dark .newstitle {
+    color: white;
+}
+
+/* short description below title */
+.shortinfo {
+    font-size: 0.82rem;
+    color: dimgray;
+    line-height: 1.5;
+    flex: 1;
+}
+
+body.dark .shortinfo {
+    color: lightgray;
+}
+
+/* date it was published */
+.pubdate {
+    font-size: 0.72rem;
+    color: gray;
+}
+
+/* row at the bottom of the card with 2 buttons */
+.btnrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+    margin-top: 4px;
+}
+
+body.dark .btnrow {
+    border-top-color: #444;
+}
+
+/* read more link */
+.readmore {
+    font-size: 0.82rem;
+    background-color: steelblue;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.readmore:hover {
+    background-color: navy;
+}
+
+/* save button */
+.saveit {
+    font-size: 0.82rem;
+    padding: 6px 12px;
+    border: 1px solid steelblue;
+    background-color: white;
+    color: steelblue;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.saveit:hover {
+    background-color: steelblue;
+    color: white;
+}
+
+/* when it's already saved */
+.saveit.done {
+    background-color: green;
+    color: white;
+    border-color: green;
+}
+
+body.dark .saveit {
+    background-color: transparent;
+    border-color: lightblue;
+    color: lightblue;
+}
+
+body.dark .saveit.done {
+    background-color: green;
+    border-color: green;
+    color: white;
+}
+
+/* ---- saved section top row ---- */
+
+#savedtop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+#savedtop h2 {
+    font-size: 1.2rem;
+}
+
+#savedtop button {
+    padding: 7px 16px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+}
+
+#savedtop button:hover {
+    background-color: dimgray;
+}
+
+#savedEmpty {
+    text-align: center;
+    padding: 30px;
+    color: gray;
+    font-size: 0.9rem;
+}
+
+/* ---- bottom / footer ---- */
+
+#sitebottom {
+    text-align: center;
+    padding: 20px;
+    background-color: slategray;
+    color: white;
+    font-size: 0.85rem;
+    margin-top: 40px;
+}
+
+body.dark #sitebottom {
+    background-color: black;
+}
+
+#sitebottom a {
+    color: lightblue;
+}

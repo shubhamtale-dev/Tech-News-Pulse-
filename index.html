@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech News Pulse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- top of the page -->
+    <div id="topbar">
+        <div id="site-name">
+            <h1>⚡ Tech News Pulse</h1>
+            <p>Latest tech and startup news</p>
+        </div>
+        <button id="darkbtn">🌙 Dark Mode</button>
+    </div>
+
+    <!-- category filter buttons -->
+    <div id="filterbtns">
+        <button class="fbtn active" onclick="changeCategory('technology', this)">All Tech</button>
+        <button class="fbtn" onclick="changeCategory('ai', this)">AI</button>
+        <button class="fbtn" onclick="changeCategory('crypto', this)">Crypto</button>
+        <button class="fbtn" onclick="changeCategory('gadgets', this)">Gadgets</button>
+        <button class="fbtn" onclick="changeCategory('startups', this)">Startups</button>
+        <button class="fbtn" id="savedbtn" onclick="showSaved()" style="display: none;">🔖 Saved (<span id="howmany">0</span>)</button>
+    </div>
+
+    <!-- main content area -->
+    <div id="wrapper">
+
+        <!-- search bar -->
+        <div id="searcharea">
+            <input type="text" id="searchbox" placeholder="Search articles...">
+            <button onclick="doSearch()">Search</button>
+            <button id="clearbtn" onclick="clearSearch()">Clear</button>
+        </div>
+
+        <!-- api key section, only shows when no key is saved -->
+        <div id="apibox">
+            <h3>🔑 Enter Your API Key</h3>
+            <p>You need a free key from <a href="https://newsapi.org" target="_blank">newsapi.org</a> to load real news.</p>
+            <br>
+            <input type="text" id="keyinput" placeholder="Paste your API key...">
+            <button onclick="saveKey()">Save Key</button>
+        </div>
+
+        <!-- news articles show up here -->
+        <div id="newsarea">
+            <p id="waitMsg">Loading... please wait ⏳</p>
+            <p id="oopsMsg" style="display: none;">❌ Something went wrong. Check your key and try again.</p>
+            <p id="nothingMsg" style="display: none;">No results found. Try something else!</p>
+
+            <!-- all the cards go in here -->
+            <div id="allcards"></div>
+        </div>
+
+        <!-- saved articles, hidden by default -->
+        <div id="savedarea" style="display: none;">
+            <div id="savedtop">
+                <h2>🔖 Saved Articles</h2>
+                <button onclick="closeSaved()">← Go Back</button>
+            </div>
+            <p id="savedEmpty" style="display: none;">You have no saved articles yet.</p>
+            <div id="savedcards"></div>
+        </div>
+
+    </div>
+
+    <!-- bottom of the page -->
+    <div id="sitebottom">
+        <p>Made with HTML, CSS & JavaScript | News from <a href="https://newsapi.org" target="_blank">NewsAPI</a></p>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
