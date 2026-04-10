@@ -9,6 +9,7 @@ const AppState = (() => {
     theme: 'light',
     category: 'technology',
     searchQuery: '',
+    apiKey: '',
     articles: [],
     savedArticles: [],
     totalResults: 0,
@@ -69,11 +70,13 @@ const AppState = (() => {
     loadFromStorage() {
       try {
         const theme = localStorage.getItem(CONFIG.STORAGE_THEME) || 'light';
+        const apiKey = localStorage.getItem(CONFIG.STORAGE_API_KEY) || '';
         const raw = localStorage.getItem(CONFIG.STORAGE_SAVED);
         const saved = raw ? JSON.parse(raw) : [];
         const viewMode = localStorage.getItem(CONFIG.STORAGE_VIEW_MODE) || 'grid';
 
         _state.theme = theme;
+        _state.apiKey = apiKey;
         _state.savedArticles = Array.isArray(saved) ? saved : [];
         _state.viewMode = viewMode;
       } catch (_) {
@@ -81,7 +84,19 @@ const AppState = (() => {
       }
     },
 
+    /** Save API key to localStorage */
+    persistApiKey(key) {
+      _state.apiKey = key;
+      localStorage.setItem(CONFIG.STORAGE_API_KEY, key);
+      _notify('apiKey');
+    },
 
+    /** Clear API key from localStorage */
+    clearApiKey() {
+      _state.apiKey = '';
+      localStorage.removeItem(CONFIG.STORAGE_API_KEY);
+      _notify('apiKey');
+    },
 
     /** Save theme to localStorage */
     persistTheme(theme) {

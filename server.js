@@ -21,13 +21,18 @@ app.get('/api/news', async (req, res) => {
 
     const url = new URL(`https://newsapi.org/v2/${endpoint}`);
     
-    // Add all query parameters forwarded from the frontend
+    // Append the API key (priority: frontend provided > environment variable)
+    const apiKey = params.apiKey || process.env.NEWS_API_KEY;
+    if (apiKey) {
+      url.searchParams.append('apiKey', apiKey);
+      // Remove it from params if it was there so it doesn't get appended twice
+      delete params.apiKey;
+    }
+    
+    // Add all other query parameters forwarded from the frontend
     for (const key in params) {
       url.searchParams.append(key, params[key]);
     }
-    
-    // Append the securely stored API key
-    url.searchParams.append('apiKey', process.env.NEWS_API_KEY);
     
     const response = await fetch(url.toString(), {
       headers: {

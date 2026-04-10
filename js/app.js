@@ -19,6 +19,7 @@ const App = {
     initNavbarScroll();
     initBackToTop();
     initViewMode();
+    renderApiKeySection();
 
     // 4. Wire up delegated event listeners (save, share, sidebar removes)
     Saved.init();
@@ -26,14 +27,18 @@ const App = {
     // 5. Bind all other events
     this._bindEvents();
 
-
-
     // 6. Update saved badge from storage
     updateSavedBadge();
     updateHeroStats();
 
-    // 7. Load initial news
-    this.loadNews();
+    // 7. Load initial news (if key exists)
+    if (AppState.get('apiKey')) {
+      this.loadNews();
+    } else {
+      // If no key, show demo data first or just empty state
+      this._loadDemoNews();
+      showToast('Viewing demo mode. Add API key for live news.', 'warning');
+    }
   },
 
   // ===========================
@@ -248,6 +253,10 @@ const App = {
     // Theme toggle
     document.getElementById('theme-toggle')
       ?.addEventListener('click', () => Theme.toggle());
+
+    // API Settings
+    document.getElementById('api-settings-btn')
+      ?.addEventListener('click', () => handleApiKeyReset());
 
     // Refresh button
     document.getElementById('refresh-btn')

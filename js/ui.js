@@ -217,7 +217,159 @@ function updateLatestHeader() {
 // API KEY PANEL
 // ===========================
 
+/**
+ * Render the API key input or managed state
+ * @param {boolean} forceShow - whether to force show the input even if key exists
+ */
+function renderApiKeySection(forceShow = false) {
+  const container = document.getElementById('api-key-container');
+  if (!container) return;
 
+  const apiKey = AppState.get('apiKey');
+  
+  // If key exists and we're not forcing show, render the "Managed" state or nothing
+  if (apiKey && !forceShow) {
+    // If you want it completely hidden when set:
+    container.innerHTML = '';
+    return;
+    
+    /* 
+       Alternatively, render a small SUCCESS badge:
+       container.innerHTML = `
+         <section class="api-key-section">
+           <div class="api-key-managed">
+             <i class="fa-solid fa-circle-check"></i>
+             <span>API Key is active</span>
+             <span class="key-preview">${apiKey.substring(0, 4)}••••${apiKey.substring(apiKey.length - 4)}</span>
+             <div class="key-actions">
+               <button onclick="handleApiKeyReset()" title="Remove API Key">Change Key</button>
+             </div>
+           </div>
+         </section>
+       `;
+       return;
+    */
+  }
+
+  // Render the Input state
+  container.innerHTML = `
+    <section class="api-key-section">
+      <div class="api-key-inner">
+        <div class="api-key-icon">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <div class="api-key-content">
+          <h3 class="api-key-title">Personalize Your Experience</h3>
+          <p class="api-key-desc">
+            To fetch real-time news, please enter your <a href="https://newsapi.org/" target="_blank">NewsAPI.org</a> key. 
+            It's free for developers and takes 30 seconds to get. 
+            <strong>Your key is saved locally in your browser.</strong>
+          </p>
+          
+          <form class="api-key-form" id="api-key-form">
+            <div class="api-input-wrapper">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input 
+                type="password" 
+                id="api-key-input" 
+                placeholder="Enter your API key here…" 
+                required
+                autocomplete="off"
+                value="${apiKey}"
+              />
+              <button type="button" class="input-eye" id="toggle-key-visibility" title="Toggle visibility">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <button type="submit" class="btn btn-primary" id="api-save-btn">
+              <span>Save Key</span>
+            </button>
+            <a href="https://newsapi.org/" target="_blank" class="btn btn-outline">
+              <i class="fa-solid fa-external-link"></i> Get API Key
+            </a>
+          </form>
+          
+          <div id="api-validation-msg" class="api-key-demo-note" hidden></div>
+        </div>
+        
+        ${apiKey ? `
+          <button class="api-key-dismiss" onclick="renderApiKeySection(false)" title="Hide">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        ` : ''}
+      </div>
+    </section>
+  `;
+
+  // Attach inner event listeners
+  const form = document.getElementById('api-key-form');
+  const visibilityBtn = document.getElementById('toggle-key-visibility');
+  const input = document.getElementById('api-key-input');
+
+  form?.addEventListener('submit', handleApiKeySubmit);
+  
+  visibilityBtn?.addEventListener('click', () => {
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    visibilityBtn.innerHTML = `<i class="fa-solid fa-${isPassword ? 'eye-slash' : 'eye'}"></i>`;
+  });
+}
+
+/**
+ * Handle API key form submission
+ */
+async function handleApiKeySubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('api-key-input');
+  const btn = document.getElementById('api-save-btn');
+  const msgEl = document.getElementById('api-validation-msg');
+  const key = input.value.trim();
+
+  if (!key) return;
+
+  // Loading state
+  btn.disabled = true;
+  const originalBtnText = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validating…';
+  msgEl.hidden = true;
+
+  try {
+    const isValid = await validateApiKey(key);
+    
+    if (isValid) {
+      AppState.persistApiKey(key);
+      showToast('API Key saved successfully!', 'success');
+      renderApiKeySection(false);
+      // Trigger a fresh load
+      if (typeof App !== 'undefined' && App.init) {
+        App.init(); 
+      } else {
+        window.location.reload(); // Fallback
+      }
+    } else {
+      msgEl.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color:var(--color-error)"></i> Invalid API key. Please check and try again.';
+      msgEl.hidden = false;
+      showToast('Invalid API Key. Please try again.', 'error');
+    }
+  } catch (err) {
+    msgEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--color-warning)"></i> Validation failed. Check your connection.';
+    msgEl.hidden = false;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalBtnText;
+  }
+}
+
+/**
+ * Reset/Change API key
+ */
+function handleApiKeyReset() {
+  if (confirm('Are you sure you want to change or remove your API key?')) {
+    AppState.clearApiKey();
+    renderApiKeySection(true);
+    showToast('API Key removed.', 'info');
+  }
+}
 
 // ===========================
 // SECTION VISIBILITY

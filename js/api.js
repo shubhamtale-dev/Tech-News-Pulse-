@@ -12,13 +12,16 @@
  */
 function buildApiUrl(category, searchQuery, page) {
   const cat = CONFIG.CATEGORIES[category] || CONFIG.CATEGORIES.technology;
-  // We no longer need to send apiKey from the frontend, but we pass the other common params
-  // The backend proxy will append the correct apiKey securely.
+  const apiKey = AppState.get('apiKey');
+  
+  // Base query params
   const common = `&language=en&pageSize=${CONFIG.PAGE_SIZE}&page=${page}`;
+  // Only add apiKey if it's set in state
+  const auth = apiKey ? `&apiKey=${encodeURIComponent(apiKey)}` : '';
 
   if (searchQuery) {
     const q = encodeURIComponent(searchQuery);
-    return `${CONFIG.API_BASE_URL}?endpoint=everything&q=${q}&sortBy=publishedAt${common}`;
+    return `${CONFIG.API_BASE_URL}?endpoint=everything&q=${q}&sortBy=publishedAt${common}${auth}`;
   }
 
   const base = `${CONFIG.API_BASE_URL}?endpoint=${cat.endpoint}&`;
@@ -26,7 +29,7 @@ function buildApiUrl(category, searchQuery, page) {
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join('&');
 
-  return `${base}${queryParts}${common}`;
+  return `${base}${queryParts}${common}${auth}`;
 }
 
 /**
@@ -40,8 +43,6 @@ async function fetchArticles(category, searchQuery, page) {
   const url = buildApiUrl(category, searchQuery, page);
 
   const response = await fetch(url);
-
-  // NewsAPI returns 200 even for errors; check status field
   const data = await response.json();
 
   if (data.status === 'error') {
@@ -61,6 +62,25 @@ async function fetchArticles(category, searchQuery, page) {
     articles,
     totalResults: data.totalResults || 0,
   };
+}
+
+/**
+ * Validate an API key by making a test request
+ * @param {string} key
+ * @returns {Promise<boolean>}
+ */
+async function validateApiKey(key) {
+  if (!key) return false;
+  
+  try {
+    const url = `${CONFIG.API_BASE_URL}?endpoint=top-headlines&category=technology&pageSize=1&apiKey=${encodeURIComponent(key)}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.status === 'ok';
+  } catch (err) {
+    console.error('API Key Validation Failed:', err);
+    return false;
+  }
 }
 
 /**
@@ -88,7 +108,8 @@ function getErrorMessage(err) {
     switch (err.code) {
       case 'apiKeyInvalid':
       case 'apiKeyExhausted':
-        return 'Your API key appears to be invalid or exhausted. Please check it and try again.';
+      case 'parameterInvalid': // NewsAPI sometimes returns this if key is weird
+        return 'The API key provided is invalid or has expired. Please update it in settings.';
       case 'rateLimited':
         return "You've hit the rate limit. Please wait a moment before refreshing.";
       case 'sourcesTooMany':
@@ -100,3 +121,4 @@ function getErrorMessage(err) {
 
   return 'Something went wrong while fetching news. Please try again.';
 }
+
