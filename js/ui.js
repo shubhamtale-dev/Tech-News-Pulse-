@@ -261,7 +261,7 @@ function renderApiKeySection(forceShow = false) {
         <div class="api-key-content">
           <h3 class="api-key-title">Personalize Your Experience</h3>
           <p class="api-key-desc">
-            To fetch real-time news, please enter your <a href="https://gnews.io/" target="_blank">GNews.io</a> key. 
+            To fetch real-time news, please enter your <a href="https://currentsapi.services/" target="_blank">Currents API</a> key. 
             It's free for developers and takes 30 seconds to get. 
             <strong>Your key is saved locally in your browser.</strong>
           </p>
@@ -284,7 +284,7 @@ function renderApiKeySection(forceShow = false) {
             <button type="submit" class="btn btn-primary" id="api-save-btn">
               <span>Save Key</span>
             </button>
-            <a href="https://gnews.io/" target="_blank" class="btn btn-outline">
+            <a href="https://currentsapi.services/" target="_blank" class="btn btn-outline">
               <i class="fa-solid fa-external-link"></i> Get API Key
             </a>
           </form>

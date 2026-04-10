@@ -4,11 +4,10 @@
  */
 
 const CONFIG = {
-  // GNews API settings
-  API_BASE_URL: 'https://gnews.io/api/v4',
-  API_KEY: '9d513748ff9895b685f205d06dc82711',
-  PAGE_SIZE: 10,          // max articles per request allowed on free tier
-  MAX_PAGES: 1,           // free tier typically restricts deep pagination
+  // Currents API settings
+  API_BASE_URL: 'https://api.currentsapi.services/v1',
+  PAGE_SIZE: 18,          // max articles per request
+  MAX_PAGES: 3,           // free tier typically restricts deep pagination
 
   // LocalStorage keys
   STORAGE_API_KEY: 'tnp_api_key',
@@ -32,7 +31,7 @@ const CONFIG = {
     technology: {
       label: 'All Tech',
       icon: 'fa-microchip',
-      endpoint: 'top-headlines',
+      endpoint: 'latest-news',
       params: { category: 'technology' },
       color: '#6C63FF',
     },
@@ -40,28 +39,28 @@ const CONFIG = {
       label: 'AI',
       icon: 'fa-brain',
       endpoint: 'search',
-      params: { q: 'artificial intelligence OR AI OR OpenAI OR ChatGPT OR LLM' },
+      params: { keywords: 'artificial intelligence OR OpenAI OR LLM OR Gemini' },
       color: '#A855F7',
     },
     crypto: {
       label: 'Crypto',
       icon: 'fa-bitcoin',
       endpoint: 'search',
-      params: { q: 'crypto OR bitcoin OR cryptocurrency OR blockchain OR ethereum' },
+      params: { keywords: 'crypto OR bitcoin OR cryptocurrency OR ethereum' },
       color: '#F59E0B',
     },
     gadgets: {
       label: 'Gadgets',
       icon: 'fa-mobile-screen',
       endpoint: 'search',
-      params: { q: 'gadgets OR smartphone OR tablet OR hardware OR apple OR samsung' },
+      params: { keywords: 'gadgets OR smartphone OR hardware OR apple OR samsung' },
       color: '#22D3EE',
     },
     startups: {
       label: 'Startups',
       icon: 'fa-rocket',
       endpoint: 'search',
-      params: { q: 'startup OR founder OR venture capital OR y combinator OR funding' },
+      params: { keywords: 'startup OR founder OR venture capital OR funding' },
       color: '#10B981',
     },
   },

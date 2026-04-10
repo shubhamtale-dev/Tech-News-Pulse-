@@ -94,8 +94,8 @@ function normalizeArticle(raw) {
     description: sanitize(raw.description) || '',
     url: raw.url || '#',
     image: raw.image || null,
-    source: sanitize(raw.source?.name) || 'Unknown',
-    publishedAt: raw.publishedAt || null,
+    source: sanitize(raw.author || raw.source?.name) || 'Unknown',
+    publishedAt: raw.published || raw.publishedAt || null,
     content: raw.content || '',
   };
 }
