@@ -4,8 +4,8 @@
  */
 
 const CONFIG = {
-  // NewsAPI settings
-  API_BASE_URL: 'https://newsapi.org/v2',
+  // Local proxy settings for NewsAPI
+  API_BASE_URL: '/api/news',
   PAGE_SIZE: 18,          // articles per page
   MAX_PAGES: 3,           // max pages loadable
 

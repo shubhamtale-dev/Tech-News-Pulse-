@@ -8,19 +8,20 @@
  * @param {string} category - key from CONFIG.CATEGORIES
  * @param {string} searchQuery - optional search term
  * @param {number} page - page number (1-indexed)
- * @param {string} apiKey
  * @returns {string} full URL
  */
-function buildApiUrl(category, searchQuery, page, apiKey) {
+function buildApiUrl(category, searchQuery, page) {
   const cat = CONFIG.CATEGORIES[category] || CONFIG.CATEGORIES.technology;
-  const common = `&language=en&pageSize=${CONFIG.PAGE_SIZE}&page=${page}&apiKey=${apiKey}`;
+  // We no longer need to send apiKey from the frontend, but we pass the other common params
+  // The backend proxy will append the correct apiKey securely.
+  const common = `&language=en&pageSize=${CONFIG.PAGE_SIZE}&page=${page}`;
 
   if (searchQuery) {
     const q = encodeURIComponent(searchQuery);
-    return `${CONFIG.API_BASE_URL}/everything?q=${q}&sortBy=publishedAt${common}`;
+    return `${CONFIG.API_BASE_URL}?endpoint=everything&q=${q}&sortBy=publishedAt${common}`;
   }
 
-  const base = `${CONFIG.API_BASE_URL}/${cat.endpoint}?`;
+  const base = `${CONFIG.API_BASE_URL}?endpoint=${cat.endpoint}&`;
   const queryParts = Object.entries(cat.params)
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join('&');
@@ -33,11 +34,10 @@ function buildApiUrl(category, searchQuery, page, apiKey) {
  * @param {string} category
  * @param {string} searchQuery
  * @param {number} page
- * @param {string} apiKey
  * @returns {Promise<{ articles: Array, totalResults: number }>}
  */
-async function fetchArticles(category, searchQuery, page, apiKey) {
-  const url = buildApiUrl(category, searchQuery, page, apiKey);
+async function fetchArticles(category, searchQuery, page) {
+  const url = buildApiUrl(category, searchQuery, page);
 
   const response = await fetch(url);
 

@@ -41,7 +41,7 @@ const App = {
   // ===========================
 
   async loadNews(append = false) {
-    const { apiKey, category, searchQuery, currentPage } = AppState.snapshot();
+    const { category, searchQuery, currentPage } = AppState.snapshot();
 
     if (!append) {
       AppState.set('isLoading', true);
@@ -53,8 +53,7 @@ const App = {
       const { articles, totalResults } = await fetchArticles(
         category,
         searchQuery,
-        currentPage,
-        apiKey
+        currentPage
       );
 
       if (append) {

@@ -6,7 +6,6 @@
 const AppState = (() => {
   // Private state
   let _state = {
-    apiKey: '2e0e4753d6d743a0b57f31439ad5f4ae',
     theme: 'light',
     category: 'technology',
     searchQuery: '',
