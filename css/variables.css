@@ -1,0 +1,122 @@
+/* =====================================================
+   TECH NEWS PULSE — Design Tokens / Variables
+   ===================================================== */
+
+:root {
+  /* --- Brand Colors --- */
+  --accent-primary: #6C63FF;
+  --accent-secondary: #A855F7;
+  --accent-tertiary: #22D3EE;
+  --accent-gradient: linear-gradient(135deg, #6C63FF 0%, #A855F7 100%);
+  --accent-glow: rgba(108, 99, 255, 0.25);
+
+  /* --- Surface Colors (Light Mode) --- */
+  --bg-base: #F8F8FC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-2: #F1F0F8;
+  --bg-surface-hover: #EEEDF8;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --bg-glass-border: rgba(255, 255, 255, 0.9);
+
+  /* --- Text Colors (Light Mode) --- */
+  --text-primary: #0F0E17;
+  --text-secondary: #4A4864;
+  --text-muted: #8B89A0;
+  --text-inverse: #FFFFFF;
+
+  /* --- Border Colors (Light Mode) --- */
+  --border-default: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.14);
+  --border-focus: var(--accent-primary);
+
+  /* --- Category Colors --- */
+  --cat-tech: #6C63FF;
+  --cat-ai: #A855F7;
+  --cat-crypto: #F59E0B;
+  --cat-gadgets: #22D3EE;
+  --cat-startups: #10B981;
+
+  /* --- Semantic Colors --- */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* --- Shadows (Light) --- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-accent: 0 8px 32px rgba(108, 99, 255, 0.25);
+  --shadow-card-hover: 0 12px 40px rgba(108, 99, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* --- Navbar --- */
+  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --navbar-height: 64px;
+
+  /* --- Typography --- */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+
+  /* --- Spacing Scale --- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* --- Radii --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Transitions --- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- Layout --- */
+  --max-width: 1280px;
+  --content-padding: clamp(16px, 4vw, 48px);
+}
+
+/* ===== DARK MODE TOKENS ===== */
+[data-theme="dark"] {
+  /* --- Surface Colors (Dark) --- */
+  --bg-base: #0D0D14;
+  --bg-surface: #13131F;
+  --bg-surface-2: #1A1A2E;
+  --bg-surface-hover: #20203A;
+  --bg-glass: rgba(19, 19, 31, 0.8);
+  --bg-glass-border: rgba(255, 255, 255, 0.06);
+
+  /* --- Text Colors (Dark) --- */
+  --text-primary: #F0EFFF;
+  --text-secondary: #A9A8C3;
+  --text-muted: #6B6A85;
+  --text-inverse: #0F0E17;
+
+  /* --- Border Colors (Dark) --- */
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  /* --- Shadows (Dark) --- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 12px 40px rgba(108, 99, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.4);
+
+  /* --- Navbar (Dark) --- */
+  --navbar-bg: rgba(13, 13, 20, 0.9);
+}

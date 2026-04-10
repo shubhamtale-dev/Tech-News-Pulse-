@@ -1,0 +1,162 @@
+/* =====================================================
+   TECH NEWS PULSE — Filters / Category Pills
+   ===================================================== */
+
+.filters-section {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: var(--navbar-height);
+  z-index: 90;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color var(--transition-smooth);
+}
+
+.filters-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 10px var(--content-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+/* ===== PILLS ===== */
+.filter-pills {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.filter-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1.5px solid var(--border-default);
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.pill i {
+  font-size: 0.78rem;
+  transition: transform var(--transition-spring);
+}
+
+.pill:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.pill:hover i {
+  transform: scale(1.2);
+}
+
+/* Category-specific active colors */
+.pill[data-category="technology"].active,
+.pill[data-category="technology"]:focus-visible {
+  background: var(--cat-tech);
+  border-color: var(--cat-tech);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.35);
+}
+
+.pill[data-category="ai"].active {
+  background: var(--cat-ai);
+  border-color: var(--cat-ai);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.35);
+}
+
+.pill[data-category="crypto"].active {
+  background: var(--cat-crypto);
+  border-color: var(--cat-crypto);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+}
+
+.pill[data-category="gadgets"].active {
+  background: var(--cat-gadgets);
+  border-color: var(--cat-gadgets);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(34, 211, 238, 0.35);
+}
+
+.pill[data-category="startups"].active {
+  background: var(--cat-startups);
+  border-color: var(--cat-startups);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.pill.active {
+  transform: translateY(-1px);
+}
+
+/* ===== FILTER RIGHT ===== */
+.filter-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+/* ===== VIEW TOGGLE ===== */
+.view-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-surface-2);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 3px;
+}
+
+.view-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: calc(var(--radius-md) - 3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  background: transparent;
+}
+
+.view-btn.active {
+  background: var(--bg-surface);
+  color: var(--accent-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+.view-btn:hover:not(.active) {
+  color: var(--text-secondary);
+}
+
+/* ===== LIST VIEW ===== */
+.cards-grid.list-view {
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}

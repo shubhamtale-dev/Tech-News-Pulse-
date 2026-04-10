@@ -1,80 +1,317 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech News Pulse</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tech News Pulse — Your premium source for the latest technology, AI, crypto, gadgets, and startup news. Stay ahead of the curve." />
+  <meta name="keywords" content="tech news, AI news, crypto news, startup news, gadgets, technology" />
+  <meta property="og:title" content="Tech News Pulse — Premium Tech News" />
+  <meta property="og:description" content="Stay ahead with curated tech, AI, crypto, and startup news in a beautiful dashboard." />
+  <meta property="og:type" content="website" />
+  <title>Tech News Pulse — Premium Tech News Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/filters.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/sidebar.css" />
+  <link rel="stylesheet" href="css/states.css" />
+  <link rel="stylesheet" href="css/apikey.css" />
+  <link rel="stylesheet" href="css/toast.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
+
 <body>
 
-    <!-- top of the page -->
-    <div id="topbar">
-        <div id="site-name">
-            <h1>⚡ Tech News Pulse</h1>
-            <p>Latest tech and startup news</p>
+  <!-- ===== TOAST NOTIFICATIONS ===== -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" id="nav-logo-btn" aria-label="Tech News Pulse Home">
+        <div class="logo-icon">
+          <i class="fa-solid fa-bolt"></i>
         </div>
-        <button id="darkbtn">🌙 Dark Mode</button>
+        <div class="logo-text">
+          <span class="logo-primary">Tech</span><span class="logo-accent">Pulse</span>
+        </div>
+      </a>
+
+      <div class="nav-center" id="nav-search-wrapper">
+        <div class="search-bar" id="search-bar" role="search">
+          <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search articles, topics, sources…"
+            autocomplete="off"
+            aria-label="Search articles"
+          />
+          <button id="search-clear-btn" class="search-clear" aria-label="Clear search" hidden>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="refresh-btn" class="nav-btn icon-btn" aria-label="Refresh news" title="Refresh">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+
+        <button id="saved-btn" class="nav-btn icon-btn saved-trigger" aria-label="Saved articles" title="Saved Articles">
+          <i class="fa-solid fa-bookmark"></i>
+          <span class="saved-badge" id="saved-badge" hidden>0</span>
+        </button>
+
+        <button id="theme-toggle" class="nav-btn icon-btn theme-btn" aria-label="Toggle theme" title="Toggle dark/light mode">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+
+
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="mobile-menu-btn" class="nav-btn icon-btn mobile-only" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+      </button>
     </div>
 
-    <!-- category filter buttons -->
-    <div id="filterbtns">
-        <button class="fbtn active" onclick="changeCategory('technology', this)">All Tech</button>
-        <button class="fbtn" onclick="changeCategory('ai', this)">AI</button>
-        <button class="fbtn" onclick="changeCategory('crypto', this)">Crypto</button>
-        <button class="fbtn" onclick="changeCategory('gadgets', this)">Gadgets</button>
-        <button class="fbtn" onclick="changeCategory('startups', this)">Startups</button>
-        <button class="fbtn" id="savedbtn" onclick="showSaved()" style="display: none;">🔖 Saved (<span id="howmany">0</span>)</button>
+    <!-- Mobile search row -->
+    <div class="nav-mobile-search" id="nav-mobile-search">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input
+          type="search"
+          id="search-input-mobile"
+          placeholder="Search articles…"
+          autocomplete="off"
+          aria-label="Search articles (mobile)"
+        />
+      </div>
     </div>
+  </nav>
 
-    <!-- main content area -->
-    <div id="wrapper">
+  <!-- ===== MAIN APP ===== -->
+  <main id="app" role="main">
 
-        <!-- search bar -->
-        <div id="searcharea">
-            <input type="text" id="searchbox" placeholder="Search articles...">
-            <button onclick="doSearch()">Search</button>
-            <button id="clearbtn" onclick="clearSearch()">Clear</button>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section" aria-label="Hero">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          Live News Feed
+        </div>
+        <h1 class="hero-title">
+          Stay <span class="gradient-text">Ahead</span> of the Curve
+        </h1>
+        <p class="hero-subtitle">
+          Curated tech, AI, crypto, and startup news — all in one premium dashboard. Updated in real time.
+        </p>
+        <div class="hero-stats" id="hero-stats">
+          <div class="stat">
+            <span class="stat-num" id="stat-articles">—</span>
+            <span class="stat-label">Articles</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num" id="stat-sources">—</span>
+            <span class="stat-label">Sources</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num" id="stat-saved">0</span>
+            <span class="stat-label">Saved</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-bg-orb orb-1" aria-hidden="true"></div>
+      <div class="hero-bg-orb orb-2" aria-hidden="true"></div>
+      <div class="hero-bg-orb orb-3" aria-hidden="true"></div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="filters-section" id="filters-section" aria-label="Category filters">
+      <div class="filters-inner">
+        <div class="filter-pills" role="tablist" aria-label="News categories">
+          <button class="pill active" data-category="technology" role="tab" aria-selected="true" id="tab-technology">
+            <i class="fa-solid fa-microchip"></i>
+            <span>All Tech</span>
+          </button>
+          <button class="pill" data-category="ai" role="tab" aria-selected="false" id="tab-ai">
+            <i class="fa-solid fa-brain"></i>
+            <span>AI</span>
+          </button>
+          <button class="pill" data-category="crypto" role="tab" aria-selected="false" id="tab-crypto">
+            <i class="fa-brands fa-bitcoin"></i>
+            <span>Crypto</span>
+          </button>
+          <button class="pill" data-category="gadgets" role="tab" aria-selected="false" id="tab-gadgets">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>Gadgets</span>
+          </button>
+          <button class="pill" data-category="startups" role="tab" aria-selected="false" id="tab-startups">
+            <i class="fa-solid fa-rocket"></i>
+            <span>Startups</span>
+          </button>
         </div>
 
-        <!-- api key section, only shows when no key is saved -->
-        <div id="apibox">
-            <h3>🔑 Enter Your API Key</h3>
-            <p>You need a free key from <a href="https://newsapi.org" target="_blank">newsapi.org</a> to load real news.</p>
-            <br>
-            <input type="text" id="keyinput" placeholder="Paste your API key...">
-            <button onclick="saveKey()">Save Key</button>
+        <div class="filter-right">
+          <button id="clear-filters-btn" class="btn btn-ghost btn-sm" hidden>
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+            Clear
+          </button>
+          <div class="view-toggle" role="group" aria-label="View mode">
+            <button class="view-btn active" id="view-grid-btn" aria-label="Grid view" title="Grid view">
+              <i class="fa-solid fa-grip"></i>
+            </button>
+            <button class="view-btn" id="view-list-btn" aria-label="List view" title="List view">
+              <i class="fa-solid fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Area -->
+    <div class="content-layout" id="content-layout">
+
+      <!-- Main Feed -->
+      <section class="feed-section" id="feed-section" aria-label="News feed">
+
+        <!-- Featured Headline -->
+        <div class="section-header" id="featured-header" hidden>
+          <h2 class="section-title">
+            <i class="fa-solid fa-star"></i>
+            Featured Story
+          </h2>
+        </div>
+        <div id="featured-card-slot"></div>
+
+        <!-- Trending -->
+        <div class="section-header" id="trending-header" hidden>
+          <h2 class="section-title">
+            <i class="fa-solid fa-fire"></i>
+            Trending Now
+          </h2>
+          <span class="section-count" id="trending-count"></span>
+        </div>
+        <div id="trending-strip" class="trending-strip" hidden></div>
+
+        <!-- Latest -->
+        <div class="section-header" id="latest-header">
+          <h2 class="section-title">
+            <i class="fa-solid fa-newspaper"></i>
+            <span id="latest-header-label">Latest News</span>
+          </h2>
+          <span class="section-count" id="article-count-label"></span>
         </div>
 
-        <!-- news articles show up here -->
-        <div id="newsarea">
-            <p id="waitMsg">Loading... please wait ⏳</p>
-            <p id="oopsMsg" style="display: none;">❌ Something went wrong. Check your key and try again.</p>
-            <p id="nothingMsg" style="display: none;">No results found. Try something else!</p>
-
-            <!-- all the cards go in here -->
-            <div id="allcards"></div>
+        <!-- Loading Skeletons -->
+        <div id="skeleton-grid" class="cards-grid" aria-label="Loading articles" aria-busy="true" hidden>
+          <!-- Injected by JS -->
         </div>
 
-        <!-- saved articles, hidden by default -->
-        <div id="savedarea" style="display: none;">
-            <div id="savedtop">
-                <h2>🔖 Saved Articles</h2>
-                <button onclick="closeSaved()">← Go Back</button>
-            </div>
-            <p id="savedEmpty" style="display: none;">You have no saved articles yet.</p>
-            <div id="savedcards"></div>
+        <!-- Cards Grid -->
+        <div id="cards-grid" class="cards-grid" aria-label="News articles"></div>
+
+        <!-- Empty / Error / No-Results States -->
+        <div id="state-panel" class="state-panel" hidden aria-live="polite"></div>
+
+        <!-- Load More -->
+        <div class="load-more-row" id="load-more-row" hidden>
+          <button id="load-more-btn" class="btn btn-outline load-more-btn">
+            <i class="fa-solid fa-arrow-down"></i>
+            Load More Articles
+          </button>
         </div>
 
+      </section>
+
+      <!-- Saved Sidebar -->
+      <aside id="saved-sidebar" class="saved-sidebar" aria-label="Saved articles" hidden>
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">
+            <i class="fa-solid fa-bookmark"></i>
+            Saved Articles
+            <span class="sidebar-count" id="sidebar-saved-count">0</span>
+          </h2>
+          <button id="sidebar-close-btn" class="icon-btn" aria-label="Close saved panel">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div id="saved-list" class="saved-list"></div>
+        <div id="saved-empty-state" class="saved-empty" hidden>
+          <i class="fa-regular fa-bookmark saved-empty-icon"></i>
+          <p>No saved articles yet.</p>
+          <span>Click the bookmark icon on any article to save it here.</span>
+        </div>
+        <div class="sidebar-footer" id="sidebar-footer" hidden>
+          <button id="clear-all-saved-btn" class="btn btn-danger-ghost btn-sm">
+            <i class="fa-solid fa-trash"></i>
+            Clear All Saved
+          </button>
+        </div>
+      </aside>
+
+    </div><!-- /content-layout -->
+
+  </main>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top" hidden>
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <i class="fa-solid fa-bolt"></i>
+          <span>Tech<strong>Pulse</strong></span>
+        </div>
+        <p class="footer-tagline">Stay ahead of the technology curve.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://newsapi.org" target="_blank" rel="noopener">Powered by NewsAPI</a>
+        <a href="https://newsapi.org/docs" target="_blank" rel="noopener">API Docs</a>
+        <a href="https://newsapi.org/pricing" target="_blank" rel="noopener">Get Free Key</a>
+      </div>
+      <div class="footer-meta">
+        <p>Built with passion. Data from <a href="https://newsapi.org" target="_blank" rel="noopener">NewsAPI.org</a></p>
+        <p class="footer-note">For development only. NewsAPI free tier does not support browser requests in production.</p>
+      </div>
     </div>
+  </footer>
 
-    <!-- bottom of the page -->
-    <div id="sitebottom">
-        <p>Made with HTML, CSS & JavaScript | News from <a href="https://newsapi.org" target="_blank">NewsAPI</a></p>
-    </div>
-
-    <script src="script.js"></script>
+  <!-- ===== JS MODULES ===== -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/demo-data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/saved.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/app.js"></script>
 
 </body>
 </html>
