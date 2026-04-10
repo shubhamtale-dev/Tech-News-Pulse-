@@ -4,10 +4,11 @@
  */
 
 const CONFIG = {
-  // Local proxy settings for NewsAPI
-  API_BASE_URL: '/api/news',
-  PAGE_SIZE: 18,          // articles per page
-  MAX_PAGES: 3,           // max pages loadable
+  // GNews API settings
+  API_BASE_URL: 'https://gnews.io/api/v4',
+  API_KEY: '9d513748ff9895b685f205d06dc82711',
+  PAGE_SIZE: 10,          // max articles per request allowed on free tier
+  MAX_PAGES: 1,           // free tier typically restricts deep pagination
 
   // LocalStorage keys
   STORAGE_API_KEY: 'tnp_api_key',
@@ -38,29 +39,29 @@ const CONFIG = {
     ai: {
       label: 'AI',
       icon: 'fa-brain',
-      endpoint: 'everything',
-      params: { q: 'artificial intelligence OR ChatGPT OR OpenAI OR LLM OR Gemini', sortBy: 'publishedAt' },
+      endpoint: 'search',
+      params: { q: 'artificial intelligence OR AI OR OpenAI OR ChatGPT OR LLM' },
       color: '#A855F7',
     },
     crypto: {
       label: 'Crypto',
       icon: 'fa-bitcoin',
-      endpoint: 'everything',
-      params: { q: 'bitcoin OR cryptocurrency OR ethereum OR blockchain OR DeFi', sortBy: 'publishedAt' },
+      endpoint: 'search',
+      params: { q: 'crypto OR bitcoin OR cryptocurrency OR blockchain OR ethereum' },
       color: '#F59E0B',
     },
     gadgets: {
       label: 'Gadgets',
       icon: 'fa-mobile-screen',
-      endpoint: 'everything',
-      params: { q: 'gadgets OR smartphone OR laptop OR wearable OR Apple OR Samsung', sortBy: 'publishedAt' },
+      endpoint: 'search',
+      params: { q: 'gadgets OR smartphone OR tablet OR hardware OR apple OR samsung' },
       color: '#22D3EE',
     },
     startups: {
       label: 'Startups',
       icon: 'fa-rocket',
-      endpoint: 'everything',
-      params: { q: 'startup OR funding OR "venture capital" OR "Series A" OR Y Combinator', sortBy: 'publishedAt' },
+      endpoint: 'search',
+      params: { q: 'startup OR founder OR venture capital OR y combinator OR funding' },
       color: '#10B981',
     },
   },

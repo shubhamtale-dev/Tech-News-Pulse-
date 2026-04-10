@@ -93,7 +93,7 @@ function normalizeArticle(raw) {
     title: sanitize(raw.title) || 'Untitled',
     description: sanitize(raw.description) || '',
     url: raw.url || '#',
-    image: raw.urlToImage || null,
+    image: raw.image || null,
     source: sanitize(raw.source?.name) || 'Unknown',
     publishedAt: raw.publishedAt || null,
     content: raw.content || '',

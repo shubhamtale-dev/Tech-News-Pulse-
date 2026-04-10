@@ -12,24 +12,22 @@
  */
 function buildApiUrl(category, searchQuery, page) {
   const cat = CONFIG.CATEGORIES[category] || CONFIG.CATEGORIES.technology;
-  const apiKey = AppState.get('apiKey');
+  const apiKey = CONFIG.API_KEY || AppState.get('apiKey');
   
-  // Base query params
-  const common = `&language=en&pageSize=${CONFIG.PAGE_SIZE}&page=${page}`;
-  // Only add apiKey if it's set in state
-  const auth = apiKey ? `&apiKey=${encodeURIComponent(apiKey)}` : '';
+  // GNews common query params
+  const common = `&lang=en&country=us&max=${CONFIG.PAGE_SIZE}&page=${page}&apikey=${encodeURIComponent(apiKey)}`;
 
   if (searchQuery) {
     const q = encodeURIComponent(searchQuery);
-    return `${CONFIG.API_BASE_URL}?endpoint=everything&q=${q}&sortBy=publishedAt${common}${auth}`;
+    return `${CONFIG.API_BASE_URL}/search?q=${q}${common}`;
   }
 
-  const base = `${CONFIG.API_BASE_URL}?endpoint=${cat.endpoint}&`;
+  const base = `${CONFIG.API_BASE_URL}/${cat.endpoint}?`;
   const queryParts = Object.entries(cat.params)
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join('&');
 
-  return `${base}${queryParts}${common}${auth}`;
+  return `${base}${queryParts}${common}`;
 }
 
 /**
@@ -45,8 +43,19 @@ async function fetchArticles(category, searchQuery, page) {
   const response = await fetch(url);
   const data = await response.json();
 
-  if (data.status === 'error') {
-    throw new ApiError(data.message || 'API returned an error', data.code);
+  if (data.errors) {
+    const msg = Array.isArray(data.errors) ? data.errors[0] : 'API returned an error';
+    if (msg.toLowerCase().includes('limit') || msg.toLowerCase().includes('quota') || response.status === 429 || response.status === 403) {
+      throw new ApiError('You have reached the 100 requests API limit', 'rateLimited');
+    }
+    throw new ApiError(msg, response.status);
+  }
+
+  if (!response.ok) {
+    if (response.status === 429 || response.status === 403) {
+      throw new ApiError('You have reached the 100 requests API limit', 'rateLimited');
+    }
+    throw new ApiError('API returned an error', response.status);
   }
 
   const rawArticles = Array.isArray(data.articles) ? data.articles : [];
@@ -60,7 +69,7 @@ async function fetchArticles(category, searchQuery, page) {
 
   return {
     articles,
-    totalResults: data.totalResults || 0,
+    totalResults: data.totalArticles || 0,
   };
 }
 
@@ -73,10 +82,10 @@ async function validateApiKey(key) {
   if (!key) return false;
   
   try {
-    const url = `${CONFIG.API_BASE_URL}?endpoint=top-headlines&category=technology&pageSize=1&apiKey=${encodeURIComponent(key)}`;
+    const url = `${CONFIG.API_BASE_URL}/top-headlines?category=technology&max=1&apikey=${encodeURIComponent(key)}`;
     const response = await fetch(url);
     const data = await response.json();
-    return data.status === 'ok';
+    return !data.errors && response.ok;
   } catch (err) {
     console.error('API Key Validation Failed:', err);
     return false;
@@ -108,10 +117,10 @@ function getErrorMessage(err) {
     switch (err.code) {
       case 'apiKeyInvalid':
       case 'apiKeyExhausted':
-      case 'parameterInvalid': // NewsAPI sometimes returns this if key is weird
+      case 'parameterInvalid':
         return 'The API key provided is invalid or has expired. Please update it in settings.';
       case 'rateLimited':
-        return "You've hit the rate limit. Please wait a moment before refreshing.";
+        return "Daily API limit (100 requests) has been reached. Please check back tomorrow or try a different key!";
       case 'sourcesTooMany':
         return 'Too many sources requested. Try a different category.';
       default:
